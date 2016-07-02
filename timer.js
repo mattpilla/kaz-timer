@@ -35,7 +35,11 @@
                         'z-index': 1000000000,
                         top: 0,
                         left: '50%',
-                        'line-height': 1
+                        'line-height': 1,
+                        'user-select': 'none',
+                        '-ms-user-select': 'none',
+                        '-moz-user-select': 'none',
+                        '-webkit-user-select': 'none'
                     };
                     var timerStyles = {
                         color: colors.default,
@@ -57,42 +61,61 @@
                     var buttonStyles = {
                         'text-align': 'center',
                         'font-family': 'sans-serif',
-                        'font-size': '18px'
+                        'font-size': '18px',
+                        cursor: 'default'
                     };
-                    var playPauseStyles = {
+                    var startStyles = {
                         color: colors.success,
                         padding: '0 5px',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        'margin-right': '10px'
                     };
+                    var stopStyles = {
+                        color: colors.danger,
+                        padding: '0 5px',
+                        cursor: 'pointer',
+                        'margin-right': '10px'
+                    };
+                    var resetStyles = {
+                        color: colors.default,
+                        padding: '0 5px',
+                        cursor: 'pointer'
+                    }
 
                     var timerHtml = '<div id="kaz-timer-body">'
-                        + '<span class="kaz-close">&times;</span>'
-                        + '<span class="kaz-timer">0:00:00</span>'
-                        + '<div class="kaz-buttons">'
-                        + '<span class="kaz-play-pause kaz-play">&#9658;</span>'
+                        + '<span id="kaz-close">&times;</span>'
+                        + '<span id="kaz-timer">0:00:00</span>'
+                        + '<div id="kaz-buttons">'
+                        + '<span id="kaz-start">&#9658;</span>'
+                        + '<span id="kaz-stop">&#10074;&#10074;</span>'
+                        + '<span id="kaz-reset">&#8634;</span>'
                         + '</div>'
                         + '</div>';
 
                     $('body').prepend(timerHtml);
                     $('#kaz-timer-body').css(timerBodyStyles);
-                    $('.kaz-close').css(closeStyles);
-                    $('.kaz-timer').css(timerStyles);
-                    $('.kaz-buttons').css(buttonStyles);
-                    $('.kaz-play').css(playPauseStyles);
+                    $('#kaz-close').css(closeStyles);
+                    $('#kaz-timer').css(timerStyles);
+                    $('#kaz-buttons').css(buttonStyles);
+                    $('#kaz-start').css(startStyles);
+                    $('#kaz-stop').css(stopStyles);
+                    $('#kaz-reset').css(resetStyles);
 
-                    $('.kaz-close').click(function() {
+                    $('#kaz-close').click(function() {
                         $(this).parent().remove();
                     });
 
-                    $('.kaz-play-pause').click(function() {
-                        if ($(this).hasClass('kaz-play')) {
-                            $(this).removeClass('kaz-play').addClass('kaz-pause');
-                            $(this).html('&#10074;&#10074;').css('color', colors.danger);
-                        } else {
-                            $(this).removeClass('kaz-pause').addClass('kaz-play');
-                            $(this).html('&#9658;').css('color', colors.success);
-                        }
+                    $('#kaz-start').click(function() {
+                        $(this).parent().siblings('#kaz-timer').css('color', colors.success);
                     });
+
+                    $('#kaz-stop').click(function() {
+                        $(this).parent().siblings('#kaz-timer').css('color', colors.danger);
+                    });
+
+                    $('#kaz-reset').click(function() {
+                        $(this).parent().siblings('#kaz-timer').css('color', colors.default);
+                    })
 
                     function handle_mousedown(e) {
                         window.my_dragging = {};
